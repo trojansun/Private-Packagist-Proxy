@@ -46,7 +46,8 @@ func main() {
 	router.GET("/:pathUri", func(c *gin.Context) {
 		// 获取 URL 参数
 		pathUri := c.Param("pathUri")
-
+		// 获取query参数
+		glog.Info(c.Request.URL.Query())
 		// 如果是packages.json
 		if pathUri == "packages.json" {
 			servePackagesJSON(fmt.Sprintf("%s/%s", config.Domain.Original, pathUri), filepath.Join(config.Storage.Path, pathUri), c)
