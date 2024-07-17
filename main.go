@@ -1,17 +1,16 @@
 package main
 
 import (
-	"encoding/json"
 	"flag"
 	"fmt"
 	"github.com/BurntSushi/toml"
 	"github.com/gin-gonic/gin"
 	"github.com/golang/glog"
+	"github.com/tidwall/gjson"
 	"io"
 	"net/http"
 	"os"
 	"path/filepath"
-	"strings"
 )
 
 // Config 对应 TOML 配置文件的顶级结构
@@ -110,58 +109,61 @@ func main() {
 			if err != nil {
 				return
 			}
-			// Decode the JSON data
-			var jsonData ComposerJSON
-			err = json.Unmarshal(readFile, &jsonData)
-			for packageName := range jsonData.Packages {
+			jsonContent := string(readFile)
+			gsonContent := gjson.Get(jsonContent, "packages")
+			for packageName := range gsonContent.Map() {
 				glog.Info(packageName)
-				for i := range jsonData.Packages[packageName] {
+				// TODO
+				formattedKey := fmt.Sprintf(`%s`, packageName)
+				for i := range gsonContent.Get(formattedKey).Array() {
+					glog.Info(gsonContent.Get(formattedKey).Array()[i])
+					glog.Info(i)
 					// 要注意，URL不能为空或者三（四）项不能为空
-					glog.Info(jsonData.Packages[packageName][i].Dist.URL)
-					//jsonData.Packages[packageName][i].Dist.URL = fmt.Sprintf("%s%s", config.Domain.Bind, jsonData.Packages[packageName][i].Dist.URL)
-
-					glog.Info("version is ", jsonData.Packages[packageName][i].Version)
-					glog.Info("url is ", jsonData.Packages[packageName][i].Dist.URL)
-					glog.Info("type is ", jsonData.Packages[packageName][i].Dist.Type)
-					glog.Info("reference is ", jsonData.Packages[packageName][i].Dist.Reference)
-
-					localSourceFileName := fmt.Sprintf("%s-%s-%s.%s", strings.ReplaceAll(packageName, "/", "-"),
-						jsonData.Packages[packageName][i].Version,
-						jsonData.Packages[packageName][i].Dist.Reference,
-						jsonData.Packages[packageName][i].Dist.Type,
-					)
-					// 字符串packageName的"/"替换为"-"
-					// url + prefix + packageName + localSourceFileName
-					oldUrl := jsonData.Packages[packageName][i].Dist.URL
-					newUrl := fmt.Sprintf("%s%s/%s/%s",
-						config.Domain.Bind,
-						config.Domain.PrefixPath,
-						packageName,
-						localSourceFileName,
-					)
-					jsonData.Packages[packageName][i].Dist.URL = newUrl
-					// 判断文件是否存在
-					if _, err := os.Stat(fmt.Sprintf("%s/%s/%s", config.Storage.SourcePath, packageName, localSourceFileName)); err == nil {
-						glog.Info("文件已经存在")
-					} else {
-						servePackagesJSON(oldUrl, fmt.Sprintf("%s/%s/%s", config.Storage.SourcePath, packageName, localSourceFileName), false, c)
-					}
+					//glog.Info(jsonData.Packages[packageName][i].Dist.URL)
+					////jsonData.Packages[packageName][i].Dist.URL = fmt.Sprintf("%s%s", config.Domain.Bind, jsonData.Packages[packageName][i].Dist.URL)
+					//
+					//glog.Info("version is ", jsonData.Packages[packageName][i].Version)
+					//glog.Info("url is ", jsonData.Packages[packageName][i].Dist.URL)
+					//glog.Info("type is ", jsonData.Packages[packageName][i].Dist.Type)
+					//glog.Info("reference is ", jsonData.Packages[packageName][i].Dist.Reference)
+					//
+					//localSourceFileName := fmt.Sprintf("%s-%s-%s.%s", strings.ReplaceAll(packageName, "/", "-"),
+					//	jsonData.Packages[packageName][i].Version,
+					//	jsonData.Packages[packageName][i].Dist.Reference,
+					//	jsonData.Packages[packageName][i].Dist.Type,
+					//)
+					//// 字符串packageName的"/"替换为"-"
+					//// url + prefix + packageName + localSourceFileName
+					//oldUrl := jsonData.Packages[packageName][i].Dist.URL
+					//newUrl := fmt.Sprintf("%s%s/%s/%s",
+					//	config.Domain.Bind,
+					//	config.Domain.PrefixPath,
+					//	packageName,
+					//	localSourceFileName,
+					//)
+					//jsonData.Packages[packageName][i].Dist.URL = newUrl
+					//// 判断文件是否存在
+					//if _, err := os.Stat(fmt.Sprintf("%s/%s/%s", config.Storage.SourcePath, packageName, localSourceFileName)); err == nil {
+					//	glog.Info("文件已经存在")
+					//} else {
+					//	servePackagesJSON(oldUrl, fmt.Sprintf("%s/%s/%s", config.Storage.SourcePath, packageName, localSourceFileName), false, c)
+					//}
 				}
 			}
 			// 保存json文件
-			jsonDataBytes, err := json.Marshal(jsonData)
-			if err != nil {
-				return
-			}
-			err = os.WriteFile(filepath.Join(config.Storage.JsonPath, reqUrlPath), jsonDataBytes, 0644)
-			if err != nil {
-				return
-			}
-
-			// TODO 这个要把其他的json文件也要处理，否则无法运行的
-
-			// 返回json文件
-			c.Data(http.StatusOK, "application/json", jsonDataBytes)
+			//jsonDataBytes, err := json.Marshal(jsonData)
+			//if err != nil {
+			//	return
+			//}
+			//err = os.WriteFile(filepath.Join(config.Storage.JsonPath, reqUrlPath), jsonDataBytes, 0644)
+			//if err != nil {
+			//	return
+			//}
+			//
+			//// TODO 这个要把其他的json文件也要处理，否则无法运行的
+			//
+			//// 返回json文件
+			//c.Data(http.StatusOK, "application/json", jsonDataBytes)
 			return
 		}
 
