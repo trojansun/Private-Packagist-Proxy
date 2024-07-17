@@ -1,0 +1,7 @@
+[storage]
+type = "local"
+path = "E:\\workspace\\go\\Private-Packagist-Proxy\\storage"
+
+[domain]
+original = "https://repo.packagist.org"
+bind = "http://127.0.0.1:8000"
