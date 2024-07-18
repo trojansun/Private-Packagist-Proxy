@@ -8,6 +8,19 @@
 
 **所有的路径都不要带最后的斜杠**
 
+#### service
+
+把`scripts/ppp.service`复制到`/lib/systemd/system/ppp.service`
+
+```shell
+# 启动
+systemctl start ppp
+# 停止
+systemctl stop ppp
+# 开机启动
+systemctl enable ppp
+```
+
 ### 编译
 
 #### Windows
@@ -26,6 +39,7 @@ chmod +x ./scripts/build.sh
 ### 运行
 
 `ppp`是生成的可执行文件，根据你的系统选择对应的文件
+
 ```shell
 chmod +x ppp
 ./ppp

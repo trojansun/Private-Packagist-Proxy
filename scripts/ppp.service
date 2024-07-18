@@ -1,0 +1,14 @@
+[Unit]
+Description=Private Packagist Proxy Server Service
+After=network.target
+
+[Service]
+Type=simple
+User=root
+Restart=on-failure
+RestartSec=5s
+WorkingDirectory=/application/ppp
+ExecStart=/application/ppp/ppp
+
+[Install]
+WantedBy=multi-user.target
