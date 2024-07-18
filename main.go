@@ -113,11 +113,9 @@ func main() {
 			gsonContent := gjson.Get(jsonContent, "packages")
 			for packageName := range gsonContent.Map() {
 				glog.Info(packageName)
-				// TODO
 				formattedKey := fmt.Sprintf(`%s`, packageName)
 				for i := range gsonContent.Get(formattedKey).Array() {
 					glog.Info(gsonContent.Get(formattedKey).Array()[i])
-					glog.Info(i)
 					// 要注意，URL不能为空或者三（四）项不能为空
 					//glog.Info(jsonData.Packages[packageName][i].Dist.URL)
 					////jsonData.Packages[packageName][i].Dist.URL = fmt.Sprintf("%s%s", config.Domain.Bind, jsonData.Packages[packageName][i].Dist.URL)

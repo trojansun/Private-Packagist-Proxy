@@ -35,6 +35,12 @@ composer config repo.packagist composer http://127.0.0.1:8000
 composer create-project laravel/laravel example-app
 ```
 
+如果你使用的是`http`协议，那么你还需要做如下设置
+
+```shell
+composer config -g secure-http false
+```
+
 #### 还原设置
 
 ```shell
