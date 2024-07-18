@@ -68,7 +68,9 @@ func main() {
 		//pathUri := c.Param("pathUri")
 		reqUrlPath := c.Request.URL.Path
 		glog.Info("Request URL Path: ", reqUrlPath)
-
+		//// 获取所有的query
+		//query := c.Request.URL.Query()
+		//glog.Info(query)
 		// 忽略 favicon.ico 请求
 		if reqUrlPath == "/favicon.ico" {
 			return
@@ -109,15 +111,20 @@ func main() {
 			for packageName := range gsonContent.Map() {
 				glog.Info(packageName)
 				formattedKey := fmt.Sprintf(`%s`, packageName)
+
 				gsonContent.Get(formattedKey).ForEach(func(key, value gjson.Result) bool {
 					if value.Get("dist.url").String() == "" {
 						return true
 					}
-					glog.Info("Key:", key.String())
-					glog.Info(value.Get("dist.url").String())       // url
-					glog.Info(value.Get("version").String())        // version
-					glog.Info(value.Get("dist.type").String())      // type
-					glog.Info(value.Get("dist.reference").String()) // reference
+					// TODO 只获取最新的，这个地方后面会进行改造，当前先处理最新的，让其他项目先用。
+					if key.Int() > 0 {
+						return true
+					}
+					//glog.Info("Key:", key.String())
+					//glog.Info(value.Get("dist.url").String())       // url
+					//glog.Info(value.Get("version").String())        // version
+					//glog.Info(value.Get("dist.type").String())      // type
+					//glog.Info(value.Get("dist.reference").String()) // reference
 
 					localSourceFileName := fmt.Sprintf("%s-%s-%s.%s", strings.ReplaceAll(packageName, "/", "-"),
 						value.Get("version").String(),
