@@ -3,10 +3,6 @@ type = "local"
 jsonPath = "E:\\workspace\\go\\Private-Packagist-Proxy\\storage\\repo"
 sourcePath = "E:\\workspace\\go\\Private-Packagist-Proxy\\storage\\source"
 
-
-
-
-
 [domain]
 original = "https://repo.packagist.org"
 bind = "http://127.0.0.1:8000"
