@@ -22,4 +22,5 @@ go.work
 go.work.sum
 
 storage/
+dist/
 .idea
