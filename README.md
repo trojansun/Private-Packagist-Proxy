@@ -11,14 +11,24 @@
 ### 编译
 
 #### Windows
+
 ```shell
 .\scripts\build.bat
 ```
 
-#### Linux 
+#### Linux
+
 ```shell
 chmod +x ./scripts/build.sh
 ./scripts/build.sh
+```
+
+### 运行
+
+`ppp`是生成的可执行文件，根据你的系统选择对应的文件
+```shell
+chmod +x ppp
+./ppp
 ```
 
 ### 测试方法

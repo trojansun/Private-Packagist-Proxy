@@ -19,6 +19,7 @@ import (
 type Config struct {
 	Storage StorageConfig `toml:"storage"`
 	Domain  DomainConfig  `toml:"domain"`
+	Server  ServerConfig  `toml:"server"`
 }
 
 // StorageConfig 对应 [storage] 部分
@@ -33,6 +34,10 @@ type DomainConfig struct {
 	Original   string `toml:"original"`
 	Bind       string `toml:"bind"`
 	PrefixPath string `toml:"prefixPath"`
+}
+type ServerConfig struct {
+	Port int    `toml:"port"`
+	Ip   string `toml:"ip"`
 }
 
 // Package represents the structure of the package entries in JSON
@@ -188,7 +193,7 @@ func main() {
 		})
 	})
 	glog.Info("Application is running...")
-	router.Run(":8000")
+	router.Run(fmt.Sprintf("%s:%d", config.Server.Ip, config.Server.Port))
 }
 
 // fetchAndSavePackagesJSON 从 Packagist 获取 packages.json 并保存到本地

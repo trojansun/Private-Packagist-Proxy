@@ -7,3 +7,7 @@ sourcePath = "E:\\workspace\\go\\Private-Packagist-Proxy\\storage\\source"
 original = "https://repo.packagist.org"
 bind = "http://127.0.0.1:8000"
 prefixPath = "/repos"
+
+[server]
+port = 8000
+ip = "127.0.0.1"
