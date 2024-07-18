@@ -60,7 +60,7 @@ composer config -g secure-http false
 composer config -g --unset repos.packagist
 ```
 
-### 开发计划
+## 开发计划
 
 - [ ] 只缓存操作前最新的版本
 - [ ] 缓存指定版本
