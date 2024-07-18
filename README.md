@@ -10,12 +10,12 @@
 
 ### 编译
 
-windows
+Windows
 ```shell
 .\scripts\build.bat
 ```
 
-linux 
+Linux 
 ```shell
 chmod +x ./scripts/build.sh
 ./scripts/build.sh
