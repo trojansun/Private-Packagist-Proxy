@@ -10,8 +10,15 @@
 
 ### 编译
 
+windows
 ```shell
 .\scripts\build.bat
+```
+
+linux 
+```shell
+chmod +x ./scripts/build.sh
+./scripts/build.sh
 ```
 
 ### 测试方法
