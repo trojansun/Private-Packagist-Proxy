@@ -54,7 +54,7 @@ chmod +x ppp
 设置本地的composer仓库地址
 
 ```shell
-composer config -g repo.packagist composer http://127.0.0.1:8000
+composer config -g repo.packagist composer https://pkg.trojancdn.com
 ```
 
 ##### 方法2-项目
@@ -62,7 +62,7 @@ composer config -g repo.packagist composer http://127.0.0.1:8000
 设置本地的composer仓库地址
 
 ```shell
-composer config repo.packagist composer http://127.0.0.1:8000
+composer config repo.packagist composer https://pkg.trojancdn.com
 ```
 
 上面的设置完毕之后，随便找一个项目测试即可。
